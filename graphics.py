@@ -349,7 +349,7 @@ class GraphWin(tk.Canvas):
             self.mouseButton = None
             return (Point(x,y),button)
         else:
-            return None
+            return (None,None)
 
     def getKey(self):
         """Wait for user to press a key and return it as a string."""
