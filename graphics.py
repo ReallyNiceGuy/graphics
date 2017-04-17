@@ -254,6 +254,9 @@ class GraphWin(tk.Canvas):
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
 
+    def clear(self):
+        self.delete("all")
+        self.items = []
 
     def setBackground(self, color):
         """Set background color of the window"""
