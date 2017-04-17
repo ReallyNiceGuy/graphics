@@ -224,7 +224,13 @@ class GraphWin(tk.Canvas):
         self.items = []
         self.mouseX = None
         self.mouseY = None
+        self.mouseButton = None
+        self.bind("<MouseWheel>", self._onClick)
         self.bind("<Button-1>", self._onClick)
+        self.bind("<Button-2>", self._onClick)
+        self.bind("<Button-3>", self._onClick)
+        self.bind("<Button-4>",self._onClick)
+        self.bind("<Button-5>",self._onClick)
         self.bind_all("<Key>", self._onKey)
         self.height = int(height)
         self.width = int(width)
@@ -317,14 +323,17 @@ class GraphWin(tk.Canvas):
         self.update()      # flush any prior clicks
         self.mouseX = None
         self.mouseY = None
+        self.mouseButton = None
         while self.mouseX == None or self.mouseY == None:
             self.update()
             if self.isClosed(): raise GraphicsError("getMouse in closed window")
             time.sleep(.1) # give up thread
         x,y = self.toWorld(self.mouseX, self.mouseY)
+        button = self.mouseButton
         self.mouseX = None
         self.mouseY = None
-        return Point(x,y)
+        self.mouseButton = None
+        return (Point(x,y),button)
 
     def checkMouse(self):
         """Return last mouse click or None if mouse has
@@ -334,9 +343,11 @@ class GraphWin(tk.Canvas):
         self.update()
         if self.mouseX != None and self.mouseY != None:
             x,y = self.toWorld(self.mouseX, self.mouseY)
+            button = self.mouseButton
             self.mouseX = None
             self.mouseY = None
-            return Point(x,y)
+            self.mouseButton = None
+            return (Point(x,y),button)
         else:
             return None
 
@@ -389,6 +400,12 @@ class GraphWin(tk.Canvas):
     def _onClick(self, e):
         self.mouseX = e.x
         self.mouseY = e.y
+        if e.delta < 0 or e.num == 5:
+            self.mouseButton = 5
+        elif e.delta > 0 or e.num == 4:
+            self.mouseButton = 4
+        else:
+            self.mouseButton = e.num
         if self._mouseCallback:
             self._mouseCallback(Point(e.x, e.y))
 
