@@ -773,7 +773,7 @@ class Polyline(GraphicsObject):
         if len(points) == 1 and type(points[0]) == type([]):
             points = points[0]
         self.points = list(map(Point.clone, points))
-        GraphicsObject.__init__(self, ["outline","width"])
+        GraphicsObject.__init__(self, ["outline","width","dash"])
 
     def __repr__(self):
         return "Polyline"+str(tuple(p for p in self.points))
@@ -785,6 +785,9 @@ class Polyline(GraphicsObject):
 
     def getPoints(self):
         return list(map(Point.clone, self.points))
+
+    def setDash(self,pattern):
+        self._reconfig("dash",pattern)
 
     def _move(self, dx, dy):
         for p in self.points:
