@@ -470,6 +470,7 @@ class Transform:
 # Default values for various item configuration options. Only a subset of
 #   keys may be present in the configuration dictionary for a given item
 DEFAULT_CONFIG = {"fill":"",
+      "dash":"",
       "outline":"black",
       "width":"1",
       "arrow":"none",
@@ -703,7 +704,7 @@ class Circle(Oval):
 class Line(_BBox):
 
     def __init__(self, p1, p2):
-        _BBox.__init__(self, p1, p2, ["arrow","fill","width"])
+        _BBox.__init__(self, p1, p2, ["arrow","fill","width","dash"])
         self.setFill(DEFAULT_CONFIG['outline'])
         self.setOutline = self.setFill
 
@@ -726,6 +727,9 @@ class Line(_BBox):
         if not option in ["first","last","both","none"]:
             raise GraphicsError(BAD_OPTION)
         self._reconfig("arrow", option)
+
+    def setDash(self, pattern):
+        self._reconfig("dash", pattern)
 
 
 class Polygon(GraphicsObject):
