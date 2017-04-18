@@ -802,7 +802,6 @@ class Polyline(GraphicsObject):
             x,y = canvas.toScreen(p.x,p.y)
             args.append(x)
             args.append(y)
-        options = options.copy()
         args.append(options)
         return GraphWin.create_line(*args)
 
