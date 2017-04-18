@@ -232,6 +232,7 @@ class GraphWin(tk.Canvas):
         self.bind("<Button-4>",self._onClick)
         self.bind("<Button-5>",self._onClick)
         self.bind_all("<Key>", self._onKey)
+        self.bind_all("<KeyRelease>", self._onKeyRelease)
         self.height = int(height)
         self.width = int(width)
         self.autoflush = autoflush
@@ -240,6 +241,7 @@ class GraphWin(tk.Canvas):
         self.closed = False
         master.lift()
         self.lastKey = ""
+        self.lastReleasedKey = ""
         if autoflush: _root.update()
 
     def __repr__(self):
@@ -259,6 +261,9 @@ class GraphWin(tk.Canvas):
 
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
+
+    def _onKeyRelease(self,evnt):
+        self.lastReleasedKey = evnt.keysym
 
     def clear(self):
         self.delete("all")
@@ -370,6 +375,15 @@ class GraphWin(tk.Canvas):
         self.update()
         key = self.lastKey
         self.lastKey = ""
+        return key
+
+    def checkReleasedKey(self):
+        """Return last key released or None if no key released since last call"""
+        if self.isClosed():
+            raise GraphicsError("checkReleasedKey in closed window")
+        self.update()
+        key = self.lastReleasedKey
+        self.lastReleasedKey = ""
         return key
 
     def getHeight(self):
