@@ -239,6 +239,7 @@ class GraphWin(tk.Canvas):
         self._mouseCallback = None
         self.trans = None
         self.closed = False
+        self.activeKeys = set()
         master.lift()
         self.lastKey = ""
         self.lastReleasedKey = ""
@@ -261,9 +262,11 @@ class GraphWin(tk.Canvas):
 
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
+        self.activeKeys.add(self.lastKey)
 
     def _onKeyRelease(self,evnt):
         self.lastReleasedKey = evnt.keysym
+        self.activeKeys.discard(self.lastReleasedKey)
 
     def clear(self):
         self.delete("all")
