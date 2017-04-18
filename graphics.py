@@ -773,7 +773,10 @@ class Polyline(GraphicsObject):
         if len(points) == 1 and type(points[0]) == type([]):
             points = points[0]
         self.points = list(map(Point.clone, points))
-        GraphicsObject.__init__(self, ["outline","width","dash"])
+        GraphicsObject.__init__(self, ["fill","width","dash"])
+        self.setFill(DEFAULT_CONFIG['outline'])
+        self.setOutline = self.setFill
+
 
     def __repr__(self):
         return "Polyline"+str(tuple(p for p in self.points))
@@ -800,9 +803,6 @@ class Polyline(GraphicsObject):
             args.append(x)
             args.append(y)
         options = options.copy()
-        if "outline" in options:
-          options["fill"] = options["outline"]
-          del options["outline"]
         args.append(options)
         return GraphWin.create_line(*args)
 
