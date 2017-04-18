@@ -262,11 +262,11 @@ class GraphWin(tk.Canvas):
 
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
-        self.activeKeys.add(self.lastKey)
+        self.activeKeys.add(self.lastKey.title())
 
     def _onKeyRelease(self,evnt):
         self.lastReleasedKey = evnt.keysym
-        self.activeKeys.discard(self.lastReleasedKey)
+        self.activeKeys.discard(self.lastReleasedKey.title())
 
     def clear(self):
         self.delete("all")
