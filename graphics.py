@@ -476,7 +476,8 @@ DEFAULT_CONFIG = {"fill":"",
       "arrow":"none",
       "text":"",
       "justify":"center",
-                  "font": ("helvetica", 12, "normal")}
+      "font": ("helvetica", 12, "normal"),
+      "anchor": "center"}
 
 class GraphicsObject:
 
@@ -809,11 +810,14 @@ class Polyline(GraphicsObject):
 class Text(GraphicsObject):
 
     def __init__(self, p, text):
-        GraphicsObject.__init__(self, ["justify","fill","text","font"])
+        GraphicsObject.__init__(self, ["justify","fill","text","font","anchor"])
         self.setText(text)
         self.anchor = p.clone()
         self.setFill(DEFAULT_CONFIG['outline'])
         self.setOutline = self.setFill
+
+    def setAnchorHandle(self,option):
+        self._reconfig("anchor",option)
 
     def __repr__(self):
         return "Text({}, '{}')".format(self.anchor, self.getText())
