@@ -573,6 +573,10 @@ class GraphicsObject:
         self.canvas = None
         self.id = None
 
+    def moveTo(self,x,y):
+      c = self.getCenter()
+      self.move(x-c.x,y-c.y)
+
 
     def move(self, dx, dy):
 
