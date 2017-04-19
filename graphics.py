@@ -275,6 +275,8 @@ class GraphWin(tk.Canvas):
         self.mouseX = e.x
         self.mouseY = e.y
         self.mouseButton = b|128
+        if self._mouseCallback:
+            self._mouseCallback((Point(e.x, e.y),self.mouseButton))
 
     def _onB1Move(self,e):
         self._onMove(e,1)
@@ -441,7 +443,7 @@ class GraphWin(tk.Canvas):
         else:
             self.mouseButton = e.num
         if self._mouseCallback:
-            self._mouseCallback(Point(e.x, e.y))
+            self._mouseCallback((Point(e.x, e.y),self.mouseButton))
 
     def addItem(self, item):
         self.items.append(item)
