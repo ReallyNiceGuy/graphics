@@ -231,6 +231,9 @@ class GraphWin(tk.Canvas):
         self.bind("<Button-3>", self._onClick)
         self.bind("<Button-4>",self._onClick)
         self.bind("<Button-5>",self._onClick)
+        self.bind("<B1-Motion>",self._onB1Move)
+        self.bind("<B2-Motion>",self._onB2Move)
+        self.bind("<B3-Motion>",self._onB3Move)
         self.bind_all("<Key>", self._onKey)
         self.bind_all("<KeyRelease>", self._onKeyRelease)
         self.height = int(height)
@@ -267,6 +270,20 @@ class GraphWin(tk.Canvas):
     def _onKeyRelease(self,evnt):
         self.lastReleasedKey = evnt.keysym
         self.activeKeys.discard(self.lastReleasedKey.title())
+
+    def _onMove(self,e,b):
+        self.mouseX = e.x
+        self.mouseY = e.y
+        self.mouseButton = b|128
+
+    def _onB1Move(self,e):
+        self._onMove(e,1)
+
+    def _onB2Move(self,e):
+        self._onMove(e,2)
+
+    def _onB3Move(self,e):
+        self._onMove(e,3)
 
     def clear(self):
         self.delete("all")
