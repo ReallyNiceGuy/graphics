@@ -273,7 +273,7 @@ class GraphWin(tk.Canvas):
 
     def _onKeyRelease(self,evnt):
         self.lastReleasedKey = evnt.keysym
-        k = self.lastKey.title()
+        k = self.lastReleasedKey.title()
         self.activeKeys.discard(k)
         if self._keyCallback:
            self._keyCallback(k,False)
