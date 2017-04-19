@@ -240,6 +240,7 @@ class GraphWin(tk.Canvas):
         self.width = int(width)
         self.autoflush = autoflush
         self._mouseCallback = None
+        self._keyCallback = None
         self.trans = None
         self.closed = False
         self.activeKeys = set()
@@ -265,11 +266,17 @@ class GraphWin(tk.Canvas):
 
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
-        self.activeKeys.add(self.lastKey.title())
+        k = self.lastKey.title()
+        self.activeKeys.add(k)
+        if self._keyCallback:
+           self._keyCallback(k,True)
 
     def _onKeyRelease(self,evnt):
         self.lastReleasedKey = evnt.keysym
-        self.activeKeys.discard(self.lastReleasedKey.title())
+        k = self.lastKey.title()
+        self.activeKeys.discard(k)
+        if self._keyCallback:
+           self._keyCallback(k,False)
 
     def _onMove(self,e,b):
         self.mouseX = e.x
@@ -432,6 +439,9 @@ class GraphWin(tk.Canvas):
 
     def setMouseHandler(self, func):
         self._mouseCallback = func
+
+    def setKeyHandler(self, func):
+       self._keyCallback = func
 
     def _onClick(self, e):
         self.mouseX = e.x
