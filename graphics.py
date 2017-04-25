@@ -773,7 +773,16 @@ class Polygon(GraphicsObject):
         if len(points) == 1 and type(points[0]) == type([]):
             points = points[0]
         self.points = list(map(Point.clone, points))
+        xs = []
+        ys = []
+        for p in self.points:
+           xs.append(p.x)
+           ys.append(p.y)
+        self._center = Point((max(xs)-min(xs))/2,(max(ys)-min(ys))/2)
         GraphicsObject.__init__(self, ["outline", "width", "fill"])
+
+    def getCenter(self):
+       return self._center
 
     def __repr__(self):
         return "Polygon"+str(tuple(p for p in self.points))
@@ -807,10 +816,18 @@ class Polyline(GraphicsObject):
         if len(points) == 1 and type(points[0]) == type([]):
             points = points[0]
         self.points = list(map(Point.clone, points))
+        xs = []
+        ys = []
+        for p in self.points:
+           xs.append(p.x)
+           ys.append(p.y)
+        self._center = Point((max(xs)-min(xs))/2,(max(ys)-min(ys))/2)
         GraphicsObject.__init__(self, ["fill","width","dash"])
         self.setFill(DEFAULT_CONFIG['outline'])
         self.setOutline = self.setFill
 
+    def getCenter(self):
+        return self._center
 
     def __repr__(self):
         return "Polyline"+str(tuple(p for p in self.points))
