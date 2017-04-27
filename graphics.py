@@ -648,6 +648,9 @@ class Point(GraphicsObject):
         other.config = self.config.copy()
         return other
 
+    def getCenter(self):
+        return Point(self.x,self.y)
+
     def getX(self): return self.x
     def getY(self): return self.y
 
