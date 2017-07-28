@@ -480,14 +480,14 @@ class Transform:
         yspan = (yhigh-ylow)
         self.xbase = xlow
         self.ybase = yhigh
-        self.xscale = xspan/float(w-1)
-        self.yscale = yspan/float(h-1)
+        self.xscale = xspan/float(w)
+        self.yscale = yspan/float(h)
 
     def screen(self,x,y):
         # Returns x,y in screen (actually window) coordinates
-        xs = (x-self.xbase) / self.xscale
-        ys = (self.ybase-y) / self.yscale
-        return int(xs+0.5),int(ys+0.5)
+        xs = (x-self.xbase) / self.xscale + 0.5
+        ys = (self.ybase-y) / self.yscale + 0.5
+        return int(xs),int(ys)
 
     def world(self,xs,ys):
         # Returns xs,ys in world coordinates
